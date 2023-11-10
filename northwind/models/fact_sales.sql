@@ -13,6 +13,7 @@ stg_order_details AS (
         orderid,
         productid,
         {{ dbt_utils.generate_surrogate_key(['productid']) }} AS productkey,
+        CONCAT(orderid, '_', productid) AS compositeid,  
         SUM(Quantity) AS quantity,
         SUM(Quantity * UnitPrice) AS extendedpriceamount,
         SUM(Quantity * UnitPrice * Discount) AS discountamount,
@@ -21,6 +22,6 @@ stg_order_details AS (
     GROUP BY  productid,orderid
 )
  
-SELECT o.*, od.productkey, od.quantity, od.extendedpriceamount, od.discountamount, od.soldamount
+SELECT compositeid, o.*, od.productkey, od.quantity, od.extendedpriceamount, od.discountamount, od.soldamount
 FROM stg_orders o
 JOIN stg_order_details od ON o.orderid = od.orderid

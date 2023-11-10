@@ -4,9 +4,10 @@ models:
   - name: fact_sales
     description: Transaction fact table. One row per line item ordered.
     columns:
-      - name: orderid
+      - name: compositeid
         description: source key used for drill through
         tests:
+          - unique
           - not_null
       - name: customerkey
         description: Dimension FK for dim_customer
