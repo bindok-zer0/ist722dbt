@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fact_sales
+    description: Transaction fact table. One row per line item ordered.
+    columns:
+      - name: compositeid
+        description: source key used for drill through
+        tests:
+          - unique
+          - not_null
+      - name: customerkey
+        description: Dimension FK for dim_customer
+      - name: employeekey
+        description: Dimension FK for dim_employee
+      - name: orderdatekey
+        description: Dimension FK for dim_date
+      - name: productkey
+        description: Dimension FK for dim_product
+      - name: quantity
+        description: the quantity of the product on the order. Additive
+        tests:
+          - not_null
+      - name: extendedpriceamount
+        description: additive fact for quantity * product price
+        tests:
+          - not_null
+      - name: discountamount
+        description: additive fact for extended price * discount
+        tests:
+          - not_null
+      - name: soldamount
+        description: additive fact for extended price - discount amount
+        tests:
+          - not_null
